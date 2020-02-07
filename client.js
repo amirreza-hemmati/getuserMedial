@@ -14,12 +14,12 @@ navigator.mediaDevices.getUserMedia(constraints)
 
 
         // get the local video and display it with permission
-    const peer = new Peer({ key: "lwjd5qra8257b9" }); 
+    // const peer = new Peer({ key: "lwjd5qra8257b9" }); 
 
         // create a peer connection with peer obj
-    peer.on('open', () => {
-      document.getElementById("displayId").innerHTML = peer.id;
-    })
+    // peer.on('open', () => {
+    //   document.getElementById("displayId").innerHTML = peer.id;
+    // })
   })
   .catch(function(err) { alert("starting Error"); console.log(err.name + ": " + err.message); }); // always check for errors at the end.
     // display the peer id on the DOM

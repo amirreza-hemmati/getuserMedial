@@ -1,35 +1,65 @@
-
-
-        /* Video Chat */
+// variables
+const displayId = document.getElementById("displayId");
+const connectionId = document.getElementById("connId");
+const btnCall = document.getElementById("call-button");
+const remoteVideo = document.getElementById("rVideo");
+const localVideo = document.querySelector("#lVideo");
+const getUserMedia =
+  navigator.getUserMedia ||
+  navigator.mozGetUserMedia ||
+  navigator.webkitGetUserMedia;
+/* Video Chat */
 // Prefer camera resolution nearest to 1280x720.
-var constraints = { audio: true, video: true }; 
+var constraints = { audio: true, video: true };
+const peer = new Peer({ key: "lwjd5qra8257b9" });
 
-navigator.mediaDevices.getUserMedia(constraints)
-  .then(function(mediaStream) {
-    const video = document.querySelector("#lVideo");
-    video.srcObject = mediaStream;
-    video.onloadedmetadata = function(e) {
-      video.play();
-    };
+if (getUserMedia) {
+  navigator.getUserMedia(
+    constraints,
+    mediaStream => {
+      localVideo.srcObject = mediaStream;
+      localVideo.onloadedmetadata = function(e) {
+        localVideo.play();
+      };
 
+      btnCall.addEventListener("click", () => {
+        try {
+          const call = peer.call(connectionId.value, mediaStream);
+          call.on("stream", remoteStream => {
+            remoteVideo.srcObject = remoteStream;
+            remoteVideo.onloadedmetadata = function(e) {
+              remoteVideo.play();
+            };
+          });
+          console.log("calling ...");
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    },
+    error => console.log(error)
+  );
+}
 
-        // get the local video and display it with permission
-    // const peer = new Peer({ key: "lwjd5qra8257b9" }); 
+peer.on("call", call => {
+  if (getUserMedia) {
+    navigator.getUserMedia(
+      constraints,
+      mediaStream => {
+        call.answer(mediaStream); // Answer the call with an A/V stream.
+        call.on("stream", function(remoteStream) {
+          // Show stream in some video/canvas element.
+          remoteVideo.srcObject = remoteStream;
+          remoteVideo.onloadedmetadata = function(e) {
+            remoteVideo.play();
+          };
+        });
+      },
+      error => console.log(error)
+    );
+  }
+});
 
-        // create a peer connection with peer obj
-    // peer.on('open', () => {
-    //   document.getElementById("displayId").innerHTML = peer.id;
-    // })
-  })
-  .catch(function(err) { alert("starting Error"); console.log(err.name + ": " + err.message); }); // always check for errors at the end.
-    // display the peer id on the DOM
-
-    // onclick with the connection butt = exposes ice info
-
-    // call on click (offer and answer is exchanged)
-
-    // ask to call
-
-    // accpet the call
-
-    // dispaly the remote video and local video on the client
+peer.on("open", id => {
+  displayId.innerHTML = id;
+});

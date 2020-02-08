@@ -7,66 +7,36 @@
     <link rel="stylesheet" href="bootstrap.min.css" />
   </head>
   <body>
-    <div class="bg-dark py-4">
-      <h1 class="h1 text-light mb-3 font-weight-norman text-center my-3">
-        Chat With Me
-      </h1>
-      <div id="chat-window">
-        <div id="output"></div>
-        <div id="typing"></div>
-      </div>
-
-      <div class="container">
-        <input
-          type="text"
-          id="handle"
-          class="form-control mt-3"
-          placeholder="Name"
-          autofocus
-          required
-        />
-        <input
-          type="text"
-          id="messages"
-          class="form-control mt-3"
-          placeholder="enter a message"
-          required
-        />
-        <button id="button" class="btn btn-primary btn-block mt-3">Send</button>
-      </div>
-    </div>
-
-    <hr />
-
     <div class="container">
+      <h1 class="text-center display-2 py-4 mb-4 font-weight-bold">Video Live</h1>
+      <br>
+      <br>
+      <br>
+
+      <div class="alert alert-success text-center h2">
+        You'r user id is => <span class="badge badge-dark" id="displayId">
+          loading the id ...e
+        </span>
+      </div>
       <div class="row">
-        <div class="col-sm-6 col-md-6 col-lg-6">
-          remote
-          <video id="rVideo"  style="width: 100%" autoplay></video>
-        </div>
 
         <div class="col-sm-6 col-md-6 col-lg-6">
           local
           <video id="lVideo" style="width: 100%"  autoplay muted></video>
         </div>
 
-        <span id="displayId"></span>
+        <div class="col-sm-6 col-md-6 col-lg-6">
+          remote
+          <video id="rVideo"  style="width: 100%" autoplay></video>
+        </div>
 
         <input
           type="text"
-          id="message"
+          id="connId"
           class="form-control mt-4"
           placeholder="enter a message"
           required
         />
-
-        <button
-          type="submit"
-          id="conn-button"
-          class="btn mt-3 btn-lg btn-success btn-block"
-        >
-          Connect
-        </button>
         <button
           type="submit"
           id="call-button"
@@ -77,6 +47,7 @@
       </div>
     </div>
 
+    <script src="peerjs.js"></script>
     <script src="client.js"></script>
   </body>
 </html>
